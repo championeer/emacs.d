@@ -9,6 +9,9 @@
 ;;; Code:
 
 (setq package-enable-at-startup nil)
+;; Inhibit resizing frame
+(setq frame-inhibit-implied-resize t)
+(setq default-frame-alist '((height . 40) (width . 120)))
 
 ;; So we can detect this having been loaded
 (provide 'early-init)
