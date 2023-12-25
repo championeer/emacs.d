@@ -9,9 +9,10 @@
 ;;; Code:
 
 (setq package-enable-at-startup nil)
-;; Inhibit resizing frame
+;;设置默认窗口的尺寸
+(setq default-frame-alist '((height . 80) (width . 200)))
+;; Inhibit resizing frame，防止闪烁
 (setq frame-inhibit-implied-resize t)
-(setq default-frame-alist '((height . 40) (width . 120)))
 
 ;; So we can detect this having been loaded
 (provide 'early-init)
