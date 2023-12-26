@@ -21,6 +21,14 @@
 ;; TODO states, which should make sense to GTD adherents.
 
 ;;; Code:
+(add-hook 'org-mode-hook
+          (lambda ()
+            (kill-local-variable 'line-spacing) ;; 如果之前设置的 local 变量没有
+                                                ;; 删除，可能会导致后面的设置无效。
+            (setq-local default-text-properties
+                        '(line-spacing 0.25     ;; 必须两项组合，
+                          line-height 1.45      ;; 才能起到效果。
+                          ))))
 
 (when *is-a-mac*
   (maybe-require-package 'grab-mac-link))
@@ -111,9 +119,9 @@ typical word processor."
 (global-set-key (kbd "C-c c") 'org-capture)
 
 (setq org-capture-templates
-      `(("t" "todo" entry (file "")  ; "" => `org-default-notes-file'
+      `(("t" "todo" entry (file "~/Dropbox/Org-Notes/inbox.org")  ; "" => `org-default-notes-file'
          "* NEXT %?\n%U\n" :clock-resume t)
-        ("n" "note" entry (file "")
+        ("n" "note" entry (file "~/Dropbox/Org-Notes/inbox.org")
          "* %? :NOTE:\n%U\n%a\n" :clock-resume t)
         ))
 
