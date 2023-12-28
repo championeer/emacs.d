@@ -2,6 +2,8 @@
 ;; (any change needs a theme re-load to take effect).
 ;;自动恢复模式
 (global-auto-revert-mode t)
+(custom-set-variables
+  '(auto-save-visited-mode t))
 ;;设置全局键绑定
 (global-set-key (kbd "s-a") 'mark-whole-buffer) ;;对应Windows上面的Ctrl-a
 (global-set-key (kbd "s-c") 'kill-ring-save) ;;对应Windows上面的Ctrl-c 复
