@@ -333,7 +333,7 @@ typical word processor."
                             ("WORK" . ?W)
                             ("NOTE" . ?n)
                             ("HEPTABASE" . ?z)
-                            ("FIBERY" . ?z)
+                            ("FIBERY" . ?f)
                             ("CANCELLED" . ?c)
                             ("FLAGGED" . ??))))
 
