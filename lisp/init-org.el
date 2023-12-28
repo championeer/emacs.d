@@ -137,14 +137,18 @@ typical word processor."
 (setq org-capture-templates
       `(("t" "todo" entry (file "~/Dropbox/Org-Notes/inbox.org")  ; "" => `org-default-notes-file'
          "* NEXT %?\n%U\n" :clock-in t :clock-resume t)
+        ("n" "project" entry (file "~/Dropbox/Org-Notes/inbox.org")
+         "* PROJECT %? :PROJECT:\n%U\n" :clock-in t :clock-resume t)
         ("n" "note" entry (file "~/Dropbox/Org-Notes/inbox.org")
          "* %? :NOTE:\n%U\n%a\n" :clock-in t :clock-resume t)
+        ("b" "book" entry (file "~/Dropbox/Org-Notes/inbox.org")
+         "* BOOK %? :READ:\n%U\n" :clock-in t :clock-resume t)
         ("r" "daily review" entry (file+datetree "~/Dropbox/Org-Notes/review.org")
          "* %? :REVIEW:\n%U\n" :clock-in t :clock-resume t)
-        ("m" "Meeting" entry (file "~/Dropbox/Org-Notes/inbox.org")
+        ("m" "meeting" entry (file "~/Dropbox/Org-Notes/inbox.org")
          "* 和%?开会 :MEETING:\n%U" :clock-in t :clock-resume t)
         ("h" "Habit" entry (file "~/Dropbox/Org-Notes/GTD/habit.org")
-         "* TODO %?\n%U\n%a\nSCHEDULED: %(format-time-string \"%<<%Y-%m-%d %a .+1d/3d>>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n")
+         "* NEXT %?\n%U\n%a\nSCHEDULED: %(format-time-string \"%<<%Y-%m-%d %a .+1d/3d>>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n")
         ))
 
 
@@ -205,8 +209,9 @@ typical word processor."
 ;;; To-do settings
 
 (setq org-todo-keywords
-      (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d!/!)")
-              (sequence "PROJECT(p)" "|" "DONE(d!/!)" "CANCELLED(c@/!)")
+      (quote ((sequence "TODO(t)" "NEXT(n)" "DOING(i)" "|" "DONE(d!/!)")
+              (sequence "BOOK(b)" "READING" "HOLD(h)" "|" "DONE(d!/!)" "CANCELLED(c@/!)")
+              (sequence "PROJECT(p)" "IN-PROGRESS" "|" "DONE(d!/!)" "CANCELLED(c@/!)")
               (sequence "WAITING(w@/!)" "DELEGATED(e!)" "HOLD(h)" "|" "CANCELLED(c@/!)" "PHONE" "MEETING")))
       org-todo-repeat-to-state "NEXT")
 
@@ -328,6 +333,7 @@ typical word processor."
                             ("WORK" . ?W)
                             ("NOTE" . ?n)
                             ("HEPTABASE" . ?z)
+                            ("FIBERY" . ?z)
                             ("CANCELLED" . ?c)
                             ("FLAGGED" . ??))))
 
