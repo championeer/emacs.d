@@ -55,10 +55,24 @@
       org-catch-invisible-edits 'show
       org-export-coding-system 'utf-8
       org-fast-tag-selection-single-key 'expert
+      org-use-fast-todo-selection t ;;通过 C-c C-t KEY 更改任务状态
+      org-treat-S-cursor-todo-selection-as-state-change nil ;;使用S-left和S-right更改待办事项状态
       org-html-validation-link nil
       org-export-kill-product-buffer-when-displayed t
       org-tags-column 80)
 
+(setq org-list-demote-modify-bullet (quote (("+" . "-")
+                                            ("*" . "-")
+                                            ("1." . "-")
+                                            ("1)" . "-")
+                                            ("A)" . "-")
+                                            ("B)" . "-")
+                                            ("a)" . "-")
+                                            ("b)" . "-")
+                                            ("A." . "-")
+                                            ("B." . "-")
+                                            ("a." . "-")
+                                            ("b." . "-"))))
 
 ;; Lots of stuff from http://doc.norang.ca/org-mode.html
 
@@ -117,16 +131,38 @@ typical word processor."
 ;;; Capturing
 
 (global-set-key (kbd "C-c c") 'org-capture)
+(setq org-directory "~/Dropbox/Org-Notes")
+(setq org-default-notes-file "~/Dropbox/Org-Notes/inbox.org")
 
 (setq org-capture-templates
       `(("t" "todo" entry (file "~/Dropbox/Org-Notes/inbox.org")  ; "" => `org-default-notes-file'
-         "* NEXT %?\n%U\n" :clock-resume t)
+         "* NEXT %?\n%U\n" :clock-in t :clock-resume t)
         ("n" "note" entry (file "~/Dropbox/Org-Notes/inbox.org")
-         "* %? :NOTE:\n%U\n%a\n" :clock-resume t)
+         "* %? :NOTE:\n%U\n%a\n" :clock-in t :clock-resume t)
+        ("r" "daily review" entry (file+datetree "~/Dropbox/Org-Notes/review.org")
+         "* %? :REVIEW:\n%U\n" :clock-in t :clock-resume t)
+        ("m" "Meeting" entry (file "~/Dropbox/Org-Notes/inbox.org")
+         "* 和%?开会 :MEETING:\n%U" :clock-in t :clock-resume t)
+        ("h" "Habit" entry (file "~/Dropbox/Org-Notes/GTD/habit.org")
+         "* TODO %?\n%U\n%a\nSCHEDULED: %(format-time-string \"%<<%Y-%m-%d %a .+1d/3d>>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n")
         ))
 
 
 
+;;; Agenda
+(global-set-key (kbd "<f12>") 'org-agenda)
+
+(setq org-agenda-files (quote ("~/Dropbox/Org-Notes/AREAS"
+                               "~/Dropbox/Org-Notes/GTD"
+                               "~/Dropbox/Org-Notes"
+                               )))
+;; Include agenda archive files when searching for things
+(setq org-agenda-text-search-extra-files (quote (agenda-archives)))
+;;在日程表中在到期日期前30天看到截止日期
+(setq org-deadline-warning-days 30)
+;;使用 C-c C-z 输入任务的备注
+(setq org-reverse-note-order nil)
+
 ;;; Refiling
 
 (setq org-refile-use-cache nil)
@@ -171,13 +207,22 @@ typical word processor."
 (setq org-todo-keywords
       (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d!/!)")
               (sequence "PROJECT(p)" "|" "DONE(d!/!)" "CANCELLED(c@/!)")
-              (sequence "WAITING(w@/!)" "DELEGATED(e!)" "HOLD(h)" "|" "CANCELLED(c@/!)")))
+              (sequence "WAITING(w@/!)" "DELEGATED(e!)" "HOLD(h)" "|" "CANCELLED(c@/!)" "PHONE" "MEETING")))
       org-todo-repeat-to-state "NEXT")
 
 (setq org-todo-keyword-faces
       (quote (("NEXT" :inherit warning)
               ("PROJECT" :inherit font-lock-string-face))))
 
+;;根据状态变化自动为任务分配标签,标签用于在议程视图中方便地过滤任务
+(setq org-todo-state-tags-triggers
+      (quote (("CANCELLED" ("CANCELLED" . t))
+              ("WAITING" ("WAITING" . t))
+              ("HOLD" ("WAITING") ("HOLD" . t))
+              (done ("WAITING") ("HOLD"))
+              ("TODO" ("WAITING") ("CANCELLED") ("HOLD"))
+              ("NEXT" ("WAITING") ("CANCELLED") ("HOLD"))
+              ("DONE" ("WAITING") ("CANCELLED") ("HOLD")))))
 
 
 ;;; Agenda views
@@ -271,6 +316,26 @@ typical word processor."
 
 (add-hook 'org-agenda-mode-hook 'hl-line-mode)
 
+;; Tags with fast selection keys
+(setq org-tag-alist (quote ((:startgroup)
+                            ("@errand" . ?e)
+                            ("@office" . ?o)
+                            ("@home" . ?H)
+                            (:endgroup)
+                            ("WAITING" . ?w)
+                            ("HOLD" . ?h)
+                            ("PERSONAL" . ?P)
+                            ("WORK" . ?W)
+                            ("NOTE" . ?n)
+                            ("HEPTABASE" . ?z)
+                            ("CANCELLED" . ?c)
+                            ("FLAGGED" . ??))))
+
+; Allow setting single tags without the menu
+(setq org-fast-tag-selection-single-key (quote expert))
+
+; For tag searches ignore tasks with scheduled and deadline dates
+(setq org-agenda-tags-todo-honor-ignore-options t)
 
 ;;; Org clock
 
@@ -330,7 +395,18 @@ typical word processor."
 (setq org-archive-mark-done nil)
 (setq org-archive-location "%s_archive::* Archive")
 
+;; Always highlight the current agenda line
+(add-hook 'org-agenda-mode-hook
+          '(lambda () (hl-line-mode 1))
+          'append)
 
+;; The following custom-set-faces create the highlights
+(custom-set-faces
+  ;; custom-set-faces was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ '(org-mode-line-clock ((t (:background "grey75" :foreground "red" :box (:line-width -1 :style released-button)))) t))
 
 
 
