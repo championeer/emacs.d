@@ -29,3 +29,5 @@
 ;(lambda()
 ;(setq-local line-spacing 0.45))
 (provide 'init-local)
+
+;;

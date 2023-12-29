@@ -137,7 +137,7 @@ typical word processor."
 (setq org-capture-templates
       `(("t" "todo" entry (file "~/Dropbox/Org-Notes/inbox.org")  ; "" => `org-default-notes-file'
          "* NEXT %?\n%U\n" :clock-in t :clock-resume t)
-        ("n" "project" entry (file "~/Dropbox/Org-Notes/inbox.org")
+        ("p" "project" entry (file "~/Dropbox/Org-Notes/inbox.org")
          "* PROJECT %? :PROJECT:\n%U\n" :clock-in t :clock-resume t)
         ("n" "note" entry (file "~/Dropbox/Org-Notes/inbox.org")
          "* %? :NOTE:\n%U\n%a\n" :clock-in t :clock-resume t)
@@ -146,7 +146,7 @@ typical word processor."
         ("r" "daily review" entry (file+datetree "~/Dropbox/Org-Notes/review.org")
          "* %? :REVIEW:\n%U\n" :clock-in t :clock-resume t)
         ("m" "meeting" entry (file "~/Dropbox/Org-Notes/inbox.org")
-         "* 和%?开会 :MEETING:\n%U" :clock-in t :clock-resume t)
+         "* 会议：%? :MEETING:\n%U" :clock-in t :clock-resume t)
         ("h" "Habit" entry (file "~/Dropbox/Org-Notes/GTD/habit.org")
          "* NEXT %?\n%U\n%a\nSCHEDULED: %(format-time-string \"%<<%Y-%m-%d %a .+1d/3d>>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n")
         ))
@@ -209,11 +209,12 @@ typical word processor."
 ;;; To-do settings
 
 (setq org-todo-keywords
-      (quote ((sequence "TODO(t)" "NEXT(n)" "DOING(i)" "|" "DONE(d!/!)")
-              (sequence "BOOK(b)" "READING" "HOLD(h)" "|" "DONE(d!/!)" "CANCELLED(c@/!)")
-              (sequence "PROJECT(p)" "IN-PROGRESS" "|" "DONE(d!/!)" "CANCELLED(c@/!)")
+      (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d!/!)")
+              (sequence "BOOK(b)" "READING(r)" "|" "FINISH(f!/!)")
+              (sequence "PROJECT(p)" "IN-PROGRESS" "|" "CLOSED(l!/!)")
               (sequence "WAITING(w@/!)" "DELEGATED(e!)" "HOLD(h)" "|" "CANCELLED(c@/!)" "PHONE" "MEETING")))
       org-todo-repeat-to-state "NEXT")
+
 
 (setq org-todo-keyword-faces
       (quote (("NEXT" :inherit warning)
@@ -330,7 +331,8 @@ typical word processor."
                             ("WAITING" . ?w)
                             ("HOLD" . ?h)
                             ("PERSONAL" . ?P)
-                            ("WORK" . ?W)
+                            ("SHOPPING" . ?s)
+                            ("WORK" . ?w)
                             ("NOTE" . ?n)
                             ("HEPTABASE" . ?z)
                             ("FIBERY" . ?f)
