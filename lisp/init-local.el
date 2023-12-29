@@ -24,6 +24,11 @@
     (dolist (charset '(kana han cjk-misc bopomofo gb18030))
       (set-fontset-font (frame-parameter nil 'font)
                         charset (font-spec :family "Source Han Mono" :size 14))))
+
+;;beancount-mode
+(add-to-list 'load-path "~/Emacs_Packages/beancount-mode/")
+(require 'beancount)
+(add-to-list 'auto-mode-alist '("\\.beancount\\'" . beancount-mode))
 ;;设置行高
 ;(add-hook 'org-mode-hook
 ;(lambda()

@@ -156,7 +156,7 @@ typical word processor."
 ;;; Agenda
 (global-set-key (kbd "<f12>") 'org-agenda)
 
-(setq org-agenda-files (quote ("~/Dropbox/Org-Notes/AREAS"
+(setq org-agenda-files (quote ("~/Dropbox/Org-Notes/NOTES"
                                "~/Dropbox/Org-Notes/GTD"
                                "~/Dropbox/Org-Notes"
                                )))
