@@ -21,14 +21,15 @@
 ;; TODO states, which should make sense to GTD adherents.
 
 ;;; Code:
+;;设置行高
 (add-hook 'org-mode-hook
           (lambda ()
             (kill-local-variable 'line-spacing) ;; 如果之前设置的 local 变量没有
-                                                ;; 删除，可能会导致后面的设置无效。
+            ;; 删除，可能会导致后面的设置无效。
             (setq-local default-text-properties
-                        '(line-spacing 0.25     ;; 必须两项组合，
-                          line-height 1.45      ;; 才能起到效果。
-                          ))))
+                        '(line-spacing 0.25 ;; 必须两项组合，
+                                       line-height 1.45 ;; 才能起到效果。
+                                       ))))
 
 (when *is-a-mac*
   (maybe-require-package 'grab-mac-link))
@@ -40,11 +41,11 @@
 
 (defvar sanityinc/org-global-prefix-map (make-sparse-keymap)
   "A keymap for handy global access to org helpers, particularly clocking.")
-
-(define-key sanityinc/org-global-prefix-map (kbd "j") 'org-clock-goto)
-(define-key sanityinc/org-global-prefix-map (kbd "l") 'org-clock-in-last)
-(define-key sanityinc/org-global-prefix-map (kbd "i") 'org-clock-in)
-(define-key sanityinc/org-global-prefix-map (kbd "o") 'org-clock-out)
+;;设置和时钟有关的全局快捷键
+(define-key sanityinc/org-global-prefix-map (kbd "j") 'org-clock-goto);;跳转到当前计时任务
+(define-key sanityinc/org-global-prefix-map (kbd "l") 'org-clock-in-last);;重新计时上一个已计时的任务
+(define-key sanityinc/org-global-prefix-map (kbd "i") 'org-clock-in);;开始计时
+(define-key sanityinc/org-global-prefix-map (kbd "o") 'org-clock-out);;停止计时
 (define-key global-map (kbd "C-c o") sanityinc/org-global-prefix-map)
 
 
@@ -210,7 +211,7 @@ typical word processor."
 
 (setq org-todo-keywords
       (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d!/!)")
-              (sequence "BOOK(b)" "READING(r)" "|" "FINISH(f!/!)")
+              (sequence "TOREAD(r)" "READING(i)" "|" "FINISH(f!/!)")
               (sequence "PROJECT(p)" "IN-PROGRESS" "|" "CLOSED(l!/!)")
               (sequence "WAITING(w@/!)" "DELEGATED(e!)" "HOLD(h)" "|" "CANCELLED(c@/!)" "PHONE" "MEETING")))
       org-todo-repeat-to-state "NEXT")

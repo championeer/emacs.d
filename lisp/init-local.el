@@ -1,5 +1,10 @@
 ;; Make customisations that affect Emacs faces BEFORE loading a theme
 ;; (any change needs a theme re-load to take effect).
+;;自动换行
+(global-visual-line-mode 1)
+(add-hook 'org-mode-hook (lambda () (setq truncate-lines nil)))
+(add-hook 'org-mode-hook '(lambda () (setq fill-column 80)))
+  (add-hook 'org-mode-hook 'turn-on-auto-fill)
 ;;自动恢复模式
 (global-auto-revert-mode t)
 (custom-set-variables
@@ -25,10 +30,14 @@
       (set-fontset-font (frame-parameter nil 'font)
                         charset (font-spec :family "Source Han Mono" :size 14))))
 
-;;beancount-mode
-(add-to-list 'load-path "~/Emacs_Packages/beancount-mode/")
+;;beancount-mode设置
+(add-to-list 'load-path "~/.emacs.d/elpa_local/beancount-mode/")
 (require 'beancount)
 (add-to-list 'auto-mode-alist '("\\.beancount\\'" . beancount-mode))
+;; Automatically enable outline-mode.
+(add-hook 'beancount-mode-hook #'outline-minor-mode)
+;;----end-----
+
 ;;设置行高
 ;(add-hook 'org-mode-hook
 ;(lambda()
