@@ -147,7 +147,7 @@ typical word processor."
         ("r" "daily review" entry (file+datetree "~/Dropbox/Org-Notes/review.org")
          "* %? :REVIEW:\n%U\n" :clock-in t :clock-resume t)
         ("m" "meeting" entry (file "~/Dropbox/Org-Notes/inbox.org")
-         "* 会议：%? :MEETING:\n%U" :clock-in t :clock-resume t)
+         "* MEETING %? :MEETING:\n%U" :clock-in t :clock-resume t)
         ("h" "Habit" entry (file "~/Dropbox/Org-Notes/GTD/habit.org")
          "* NEXT %?\n%U\n%a\nSCHEDULED: %(format-time-string \"%<<%Y-%m-%d %a .+1d/3d>>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n")
         ))

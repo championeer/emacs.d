@@ -30,6 +30,20 @@
       (set-fontset-font (frame-parameter nil 'font)
                         charset (font-spec :family "Source Han Mono" :size 14))))
 
+;; 设置窗口大小，仅仅在图形界面需要设置
+(when (display-graphic-p)
+  (let ((top    0)                                     ; 顶不留空
+        (left   (/ (x-display-pixel-width) 10))        ; 左边空10%
+        (height (round (* 0.8                          ; 窗体高度为0.8倍的显示高度
+                          (/ (x-display-pixel-height)
+                             (frame-char-height))))))
+    (let ((width  (round (* 2.5 height))))             ; 窗体宽度为2.5倍高度
+      (setq default-frame-alist nil)
+      (add-to-list 'default-frame-alist (cons 'top top))
+      (add-to-list 'default-frame-alist (cons 'left left))
+      (add-to-list 'default-frame-alist (cons 'height height))
+      (add-to-list 'default-frame-alist (cons 'width width)))))
+
 ;;beancount-mode设置
 (add-to-list 'load-path "~/.emacs.d/elpa_local/beancount-mode/")
 (require 'beancount)
@@ -39,9 +53,23 @@
 ;;----end-----
 
 ;;设置行高
-;(add-hook 'org-mode-hook
-;(lambda()
-;(setq-local line-spacing 0.45))
+                                        ;(add-hook 'org-mode-hook
+                                        ;(lambda()
+                                        ;(setq-local line-spacing 0.45))
+
+;; 设置剪贴板历史长度300，默认为60
+(setq kill-ring-max 200)
+
+;; 在剪贴板里不存储重复内容
+(setq kill-do-not-save-duplicates t)
+
+;; 设置大文件阈值为100MB，默认10MB
+(setq large-file-warning-threshold 100000000)
+
+;;keycast
+(require 'keycast)
+(keycast-mode-line-mode)
+
 (provide 'init-local)
 
 ;;
