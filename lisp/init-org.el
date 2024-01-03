@@ -210,8 +210,8 @@ typical word processor."
 ;;; To-do settings
 
 (setq org-todo-keywords
-      (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d!/!)")
-              (sequence "TOREAD(r)" "READING(i)" "|" "FINISH(f!/!)")
+      (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d@/!)")
+              (sequence "TOREAD(r)" "READING(i)" "|" "FINISH(f@/!)")
               (sequence "PROJECT(p)" "IN-PROGRESS" "|" "CLOSED(l!/!)")
               (sequence "WAITING(w@/!)" "DELEGATED(e!)" "HOLD(h)" "|" "CANCELLED(c@/!)" "PHONE" "MEETING")))
       org-todo-repeat-to-state "NEXT")
